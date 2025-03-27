@@ -1,5 +1,7 @@
 package main
 
+import "github.com/evanLagan/go-raw-http-server/server"
+
 func main() {
-	server.start(":8080")
+	server.Start(":8080")
 }
