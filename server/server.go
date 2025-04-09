@@ -28,13 +28,29 @@ func handleConnection(conn net.Conn) {
 	defer conn.Close()
 
 	reader := bufio.NewReader(conn)
+	
+	/*
 	line, err := reader.ReadString('\n')
 	if err != nil {
 		fmt.Println("Read failed: ", err)
 		return
 	}
+	*/
+
+	line, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Failed to read request line:", err)
+	}
+
+	req, err := parseRequestLine(line)
 
 	fmt.Println("Request Line: ", line)
+	if err != nil {
+		fmt.Println("Malformed request line:", err)
+		return
+	}
+
+	fmt.Printf("%s %s %s\n", req.Method, req.Path, req.Version)
 
 	// Simple raw response
 	body := "Hello from raw TCP server in Go."
